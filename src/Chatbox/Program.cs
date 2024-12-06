@@ -31,11 +31,10 @@ internal class Program
         App = appBuilder.Build();
 
         App.MainWindow
-            .SetUseOsDefaultSize(true)
             .Center()
-            .SetSize(800, 450)
+            .SetSize(1000, 800)
             .Load(appUrl)
-            .SetTitle("小t");
+            .SetTitle("人工智能");
 
         App.MainWindow
             .SetIconFile("logo.ico");

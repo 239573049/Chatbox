@@ -1,29 +1,17 @@
-import { ActionIcon } from '@lobehub/ui';
-import { Maximize2, Minimize2 } from 'lucide-react';
 import { memo } from 'react';
 
 import ActionBar from '@/features/ChatInput/ActionBar';
 import { ActionKeys } from '../ActionBar/config';
 
 interface HeaderProps {
-  expand: boolean;
   leftActions: ActionKeys[];
   rightActions: ActionKeys[];
-  setExpand: (expand: boolean) => void;
 }
 
-const Header = memo<HeaderProps>(({ expand, setExpand, leftActions, rightActions }) => (
+const Header = memo<HeaderProps>(({ leftActions, rightActions }) => (
   <ActionBar
     leftActions={leftActions}
     rightActions={rightActions}
-    rightAreaEndRender={
-      <ActionIcon
-        icon={expand ? Minimize2 : Maximize2}
-        onClick={() => {
-          setExpand(!expand);
-        }}
-      />
-    }
   />
 ));
 

@@ -5,10 +5,7 @@ import { Flexbox } from 'react-layout-kit';
 import Head from './Header';
 import { ActionKeys } from '../ActionBar/config';
 
-export type FooterRender = (params: {
-  expand: boolean;
-  onExpandChange: (expand: boolean) => void;
-}) => ReactNode;
+export type FooterRender = () => ReactNode;
 
 interface DesktopChatInputProps {
   leftActions: ActionKeys[];
@@ -24,10 +21,8 @@ const DesktopChatInput = memo<DesktopChatInputProps>(
     renderTextArea,
     renderFooter,
   }) => {
-    const [expand, setExpand] = useState<boolean>(false);
 
     const onSend = useCallback(() => {
-      setExpand(false);
     }, []);
 
     return (
@@ -39,13 +34,11 @@ const DesktopChatInput = memo<DesktopChatInputProps>(
         style={{ minHeight: 160, position: 'relative' }}
       >
         <Head
-          expand={expand}
           leftActions={leftActions}
           rightActions={rightActions}
-          setExpand={setExpand}
         />
         {renderTextArea(onSend)}
-        {renderFooter({ expand, onExpandChange: setExpand })}
+        {renderFooter()}
       </Flexbox>
       </>
     );

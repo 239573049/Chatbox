@@ -39,13 +39,9 @@ const useStyles = createStyles(({ css, prefixCls, token }) => {
 });
 
 interface FooterProps {
-  expand: boolean;
-  onExpandChange: (expand: boolean) => void;
 }
 
-const Footer = memo<FooterProps>(({ 
-    expand,
-    onExpandChange
+const Footer = memo<FooterProps>(({
  }) => {
 
   const { styles } = useStyles();
@@ -89,7 +85,6 @@ const Footer = memo<FooterProps>(({
                 loading={isAIGenerating}
                 onClick={() => {
                 //   sendMessage();
-                  onExpandChange?.(false);
                 }}
                 type={'primary'}
               >

@@ -11,8 +11,8 @@ const leftActions = [
 const rightActions = ['clear'] as ActionKeys[];
 
 const renderTextArea = (onSend: () => void) => <TextArea onSend={onSend} />;
-const renderFooter: FooterRender = ({ expand, onExpandChange }) => (
-  <Footer expand={expand} onExpandChange={onExpandChange} />
+const renderFooter: FooterRender = () => (
+  <Footer />
 );
 
 const Desktop = memo(() => {
