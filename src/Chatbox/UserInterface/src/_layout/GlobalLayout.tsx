@@ -11,6 +11,8 @@ export default function GlobalLayout({
     useEffect(() => {
         // @ts-ignore
         window.external.sendMessage(`__bwv:["AttachPage","${window.location.origin + "/"}","${window.location.origin + "/"}"]`)
+        console.log("发送成功");
+        
     }, []);
 
     const [theme, switchTheme] = useGlobalStore((state) => [state.theme, state.switchTheme]);

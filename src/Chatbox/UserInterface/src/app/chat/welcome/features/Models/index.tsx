@@ -3,14 +3,27 @@ import { DraggablePanel, SearchBar } from "@lobehub/ui";
 import { memo, useEffect } from "react";
 import { Flexbox } from 'react-layout-kit';
 import ModelItem from "./ModelItem";
+import { useChatStore } from "@/store/chat";
+import WindowContext from "@/service/WindowContext";
 
 const Models = memo(() => {
-    const [search, setSearchValue, models, initModels,navExpanded,updateNavExpanded] =
-        useModelsStore((state) => [state.search, state.setSearchValue, state.models, state.initModels,state.navExpanded,state.updateNavExpanded]);
+    const [search, setSearchValue, models, initModels, navExpanded, updateNavExpanded, model] =
+        useModelsStore((state) => [state.search, state.setSearchValue, state.models, state.initModels, state.navExpanded, state.updateNavExpanded, state.model]);
+
+    const { updateSessionId } = useChatStore((s) => ({
+        updateSessionId: s.updateSessionId
+    }));
 
     useEffect(() => {
         initModels();
     }, [initModels]);
+
+    useEffect(() => {
+        if (model) {
+            updateSessionId(model.id);
+            WindowContext.setTitle(model.name)
+        }
+    }, [model]);
 
     return (<DraggablePanel
         placement="left"
@@ -20,7 +33,7 @@ const Models = memo(() => {
         defaultSize={{
             width: 280,
         }}
-        onExpandChange={(expand)=>{
+        onExpandChange={(expand) => {
             updateNavExpanded(expand)
         }}
     >

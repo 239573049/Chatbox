@@ -2,6 +2,7 @@ import { StateCreator } from "zustand";
 import { ModelsStore } from "./store";
 import ModelService from "@/service/ModelService";
 import { AgentModel } from "@/types/Model";
+import { useChatStore } from "../chat";
 
 export interface ModelsStoreAction {
     setSearchValue: (value: string) => Promise<void>;
@@ -9,7 +10,6 @@ export interface ModelsStoreAction {
     switchModel:(model:AgentModel) => Promise<void>;
     updateNavExpanded:(navExpanded:boolean)=>void;
 }
-
 
 export const modelsActionSlice: StateCreator<
     ModelsStore,
@@ -26,7 +26,8 @@ export const modelsActionSlice: StateCreator<
         const models = await ModelService.getModels();
         set({
             models,
-            model:models[0]
+            model:models[0],
+            navExpanded:true,
         })
     },
     async switchModel(model){
@@ -37,10 +38,12 @@ export const modelsActionSlice: StateCreator<
         set({
             model
         })
+
+        useChatStore.getState().updateSessionId(model.id);
     },
     updateNavExpanded(navExpanded) {
         set({
-            navExpanded:!navExpanded
+            navExpanded:navExpanded
         })
     },
 })

@@ -10,6 +10,7 @@ import { isMacOS } from '@/utils/platform';
 
 import SendMore from './SendMore';
 import ShortcutHint from './ShortcutHint';
+import { useSendMessage } from '@/features/ChatInput/useSend';
 
 const useStyles = createStyles(({ css, prefixCls, token }) => {
   return {
@@ -42,11 +43,11 @@ interface FooterProps {
 }
 
 const Footer = memo<FooterProps>(({
- }) => {
+}) => {
 
   const { styles } = useStyles();
 
-  const [isAIGenerating, stopGenerateMessage] = useChatStore((s) => [s.isAIGenerating,s.stopGenerateMessage]);
+  const [isAIGenerating, stopGenerateMessage, sendMessage] = useChatStore((s) => [s.isAIGenerating, s.stopGenerateMessage, s.sendMessage]);
 
   const [isMac, setIsMac] = useState<boolean>();
 
@@ -76,7 +77,7 @@ const Footer = memo<FooterProps>(({
               icon={<StopLoadingIcon />}
               onClick={stopGenerateMessage}
             >
-                暂停
+              暂停
             </Button>
           ) : (
             <Space.Compact>
@@ -84,7 +85,10 @@ const Footer = memo<FooterProps>(({
                 disabled={isAIGenerating}
                 loading={isAIGenerating}
                 onClick={() => {
-                //   sendMessage();
+                  sendMessage({
+                    onlyAddUserMessage: false,
+                    message: ''
+                  });
                 }}
                 type={'primary'}
               >

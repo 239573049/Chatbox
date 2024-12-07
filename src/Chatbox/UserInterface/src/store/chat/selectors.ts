@@ -35,7 +35,7 @@ const getChatsWithThread = (s: ChatState, messages: ChatMessage[]) => {
  * Current active raw message list, include thread messages
  */
 const activeBaseChats = (s: ChatState): ChatMessage[] => {
-    if (!s.activeId) return [];
+    if (!s.activeSessionId) return [];
 
     const messages = s.content.messagesMap[currentChatKey(s)] || [];
 
@@ -43,7 +43,7 @@ const activeBaseChats = (s: ChatState): ChatMessage[] => {
 };
 
 
-const currentChatKey = (s: ChatState) => messageMapKey(s.activeId ?? '');
+const currentChatKey = (s: ChatState) => messageMapKey(s.activeSessionId ?? '');
 /**
  * 排除掉所有 tool 消息，在展示时需要使用
  */

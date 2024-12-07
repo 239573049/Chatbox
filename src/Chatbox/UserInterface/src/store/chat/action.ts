@@ -1,20 +1,39 @@
 import { StateCreator } from "zustand";
 import { ChatStore } from "./store";
-import { CreateMessageParams, SendThreadMessageParams } from "@/types/message";
+import { ChatMessage, CreateMessageParams, SendMessageParams, SendThreadMessageParams } from "@/types/message";
+import { nanoid } from "@/utils/uuid";
 
 export interface ChatStoreAction {
     updateInputMessage: (vaule: string) => void;
     stopGenerateMessage: () => Promise<void>;
     addAIMessage: () => Promise<void>;
     setChatLoading: (loading: boolean) => void;
+    
+    /**
+     * 删除指定id的消息
+     * @param id 
+     * @returns 
+     */
     deleteMessage: (id: string) => Promise<void>;
     regenerateMessage: (id: string) => Promise<void>;
     translateMessage: (id: string, lang: string) => Promise<void>;
     ttsMessage: (id: string) => Promise<void>;
+    
+    /**
+     * 删除并重新生成
+     * @param id 
+     * @returns 
+     */
     delAndRegenerateMessage: (id: string) => Promise<void>;
     copyMessage: (id: string, content: string) => Promise<void>;
     openThreadCreator: (id: string) => Promise<void>;
     resendThreadMessage: (id: string) => Promise<void>;
+
+    /**
+     * 
+     * @param id 
+     * @returns 
+     */
     delAndResendThreadMessage: (id: string) => Promise<void>;
     toggleMessageEditing: (id: string, editing: boolean) => Promise<void>;
     reInvokeToolMessage: (id: string) => Promise<void>;
@@ -24,6 +43,13 @@ export interface ChatStoreAction {
     openMessageDetail: (id: string) => Promise<void>;
     modifyMessageContent: (id: string, content: string) => Promise<void>;
     sendThreadMessage: (params: SendThreadMessageParams) => Promise<void>;
+    sendMessage: (params: SendMessageParams) => Promise<void>;
+    updateSessionId: (id: string | null) => void;
+    
+    /**
+     * 清空当前对话
+     */
+    clearConversation: () => Promise<void>;
 }
 
 
@@ -48,6 +74,54 @@ export const chatActionSlice: StateCreator<
     },
     async addAIMessage() {
 
+        const {
+            activeSessionId,
+            message: {
+                value
+            },
+            content: {
+                messagesMap
+            }
+        } = get();
+
+        if (!activeSessionId) return;
+
+        if (!value) return;
+
+        set({
+            isCreatingThreadMessage: true,
+        })
+
+        const newMessage: ChatMessage = {
+            content: value,
+            role: 'assistant',
+            id: nanoid(),
+            meta: {
+                avatar: '🤖'
+            },
+            traceId: nanoid(),
+            threadId: null,
+            sessionId: activeSessionId,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+        };
+
+        // 从messagesMap中获取当前sessionId的messages
+        const messages = messagesMap[activeSessionId] || [];
+
+        set({
+            content: {
+                ...get().content,
+                messagesMap: {
+                    ...get().content.messagesMap,
+                    [activeSessionId]: [...messages, newMessage]
+                }
+            },
+            message: {
+                ...get().message,
+                value: ''
+            }
+        })
     },
     setChatLoading(loading) {
         set({
@@ -110,7 +184,7 @@ export const chatActionSlice: StateCreator<
     }) {
 
         const {
-            activeId,
+            activeSessionId,
             message: {
                 value
             },
@@ -119,30 +193,152 @@ export const chatActionSlice: StateCreator<
             }
         } = get();
 
-        if (!activeId) return;
+        if (!activeSessionId) return;
 
-        if (!message) return;
+        if (!value || value.trim() === '') return;
 
         set({
             isCreatingThreadMessage: true,
         })
 
-
-        const newMessage: CreateMessageParams = {
-            content: message,
-            role: 'user',
-            sessionId: activeId,
+        const newMessage: ChatMessage = {
+            content: value,
+            role: 'assistant',
+            id: nanoid(),
+            meta: {
+                avatar: '🤖'
+            },
+            traceId: nanoid(),
+            threadId: null,
+            sessionId: activeSessionId,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
         };
-        
-        const newMessages = [...(messagesMap[activeId] || []), newMessage];
+
+        // 从messagesMap中获取当前sessionId的messages
+        const messages = messagesMap[activeSessionId] || [];
 
         set({
             content: {
                 ...get().content,
                 messagesMap: {
                     ...get().content.messagesMap,
-                    [activeId]: newMessages
+                    [activeSessionId]: [...messages, newMessage]
                 }
+            },
+            message: {
+                ...get().message,
+                value: ''
+            }
+        })
+    },
+    async sendMessage(params) {
+        if (params.onlyAddUserMessage) {
+            const {
+                activeSessionId,
+                message: {
+                    value
+                }
+            } = get();
+
+            if (!activeSessionId) return;
+
+            if (!value || value.trim() === '') return;
+
+            const newMessage: ChatMessage = {
+                content: value,
+                role: 'user',
+                sessionId: activeSessionId!,
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+                id: nanoid(),
+                meta: {
+                    avatar: '😄'
+                },
+                traceId: nanoid(),
+                threadId: null,
+            };
+
+            set({
+                content: {
+                    ...get().content,
+                    messagesMap: {
+                        ...get().content.messagesMap,
+                        [activeSessionId]: [...(get().content.messagesMap[activeSessionId] || []), newMessage]
+                    },
+                    chatMessages: [...get().content.chatMessages, newMessage]
+                },
+                message: {
+                    ...get().message,
+                    value: ''
+                }
+            })
+        } else {
+
+            const {
+                activeSessionId,
+                message: {
+                    value
+                }
+            } = get();
+
+            if (!activeSessionId) return;
+
+
+            if (!value || value.trim() === '') return;
+
+            const newMessage: ChatMessage = {
+                content: value,
+                role: 'user',
+                sessionId: activeSessionId!,
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+                id: nanoid(),
+                meta: {
+                    avatar: '😄'
+                },
+                traceId: nanoid(),
+                threadId: null,
+            };
+
+            set({
+                content: {
+                    ...get().content,
+                    messagesMap: {
+                        ...get().content.messagesMap,
+                        [activeSessionId]: [...(get().content.messagesMap[activeSessionId] || []), newMessage]
+                    },
+                    chatMessages: [...get().content.chatMessages, newMessage]
+                },
+                message: {
+                    ...get().message,
+                    value: ''
+                }
+            })
+        }
+    },
+    updateSessionId(id) {
+        set({
+            activeSessionId: id
+        })
+    },
+    async clearConversation() {
+
+        const {
+            activeSessionId,
+            content: {
+                messagesMap
+            }
+        } = get();
+
+        if (!activeSessionId) return;
+
+        messagesMap[activeSessionId] = [];
+
+        set({
+            content: {
+                ...get().content,
+                messagesMap
             }
         })
     }

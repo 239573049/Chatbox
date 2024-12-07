@@ -1,3 +1,4 @@
+import { useChatStore } from '@/store/chat';
 import { ActionIcon } from '@lobehub/ui';
 import { Popconfirm } from 'antd';
 import { Eraser } from 'lucide-react';
@@ -5,10 +6,11 @@ import { memo, useCallback, useState } from 'react';
 
 const Clear = memo(() => {
   const [confirmOpened, updateConfirmOpened] = useState(false);
+  const [clearConversation] = useChatStore((s)=>[s.clearConversation])
 
   const resetConversation = useCallback(async () => {
-    
-  }, []);
+    await clearConversation();
+  }, [clearConversation]);
 
   return (
     <Popconfirm

@@ -17,7 +17,8 @@ export interface ChatState {
         isCreatingThread: boolean
     },
     messageEditingIds: string[],
-    messageGeneratingIds: string[]
+    messageGeneratingIds: string[],
+    activeSessionId: string | null
 }
 
 export const initialState: ChatState = {
@@ -38,5 +39,6 @@ export const initialState: ChatState = {
     },
     messageEditingIds: [],
     messageGeneratingIds: [],
+    activeSessionId: null
 };
 

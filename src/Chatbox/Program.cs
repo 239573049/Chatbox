@@ -41,7 +41,10 @@ internal class Program
 
         App.UseWindowContext();
 
-        AppDomain.CurrentDomain.UnhandledException += (sender, error) => { };
+        AppDomain.CurrentDomain.UnhandledException += (sender, error) =>
+        {
+            Console.WriteLine(error.ExceptionObject);
+        };
 
         App.Run();
     }

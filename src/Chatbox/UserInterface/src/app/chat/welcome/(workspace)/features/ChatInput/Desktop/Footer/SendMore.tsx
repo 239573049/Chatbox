@@ -1,13 +1,14 @@
-import { Icon} from '@lobehub/ui';
+import { Icon } from '@lobehub/ui';
 import { Button, Dropdown, } from 'antd';
 import { createStyles } from 'antd-style';
-import { BotMessageSquare,  LucideChevronDown, MessageSquarePlus } from 'lucide-react';
+import { BotMessageSquare, LucideChevronDown, MessageSquarePlus } from 'lucide-react';
 import { memo } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Flexbox } from 'react-layout-kit';
 
 import HotKeys from '@/components/HotKeys';
 import { useChatStore } from '@/store/chat';
+import { useSendMessage } from '@/features/ChatInput/useSend';
 
 const useStyles = createStyles(({ css, prefixCls }) => {
   return {
@@ -28,6 +29,8 @@ const SendMore = memo<SendMoreProps>(({ disabled }) => {
 
   const { styles } = useStyles();
 
+  const { sendMessage } = useSendMessage();
+
   const addAIMessage = useChatStore((s) => s.addAIMessage);
 
 
@@ -35,8 +38,7 @@ const SendMore = memo<SendMoreProps>(({ disabled }) => {
   useHotkeys(
     hotKey,
     (keyboardEvent, hotkeysEvent) => {
-      console.log(keyboardEvent, hotkeysEvent);
-    //   sendMessage({ onlyAddUserMessage: true });
+      sendMessage({ onlyAddUserMessage: true, message: '' });
     },
     {
       enableOnFormTags: true,
@@ -49,7 +51,7 @@ const SendMore = memo<SendMoreProps>(({ disabled }) => {
       disabled={disabled}
       menu={{
         items: [
-        //   { type: 'divider' },
+          //   { type: 'divider' },
           {
             icon: <Icon icon={BotMessageSquare} />,
             key: 'addAi',
@@ -63,12 +65,12 @@ const SendMore = memo<SendMoreProps>(({ disabled }) => {
             key: 'addUser',
             label: (
               <Flexbox gap={24} horizontal>
-                    添加一条用户消息
+                添加一条用户消息
                 <HotKeys keys={hotKey} />
               </Flexbox>
             ),
             onClick: () => {
-            //   sendMessage({ onlyAddUserMessage: true });
+                sendMessage({ onlyAddUserMessage: true, message: '' });
             },
           },
         ],

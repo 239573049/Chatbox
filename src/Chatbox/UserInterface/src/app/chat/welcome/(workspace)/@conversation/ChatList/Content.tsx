@@ -12,18 +12,18 @@ interface ListProps {
 }
 
 const Content = memo<ListProps>(({ mobile }) => {
-    
 
-  const data = useChatStore((s) => s.content.chatMessages);
+
+  const data = useChatStore((s) => s.content.messagesMap[s.activeSessionId || '']);
 
   const itemContent = useCallback(
     (index: number, id: string) => <MainChatItem id={id} index={index} />,
     [mobile],
   );
 
-  if (data.length === 0) return <Welcome />;
+  if (!data || data.length === 0) return <Welcome />;
 
-  return <VirtualizedList dataSource={data} itemContent={itemContent} mobile={mobile} />;
+  return <VirtualizedList dataSource={data?.map((m) => m.id)} itemContent={itemContent} mobile={mobile} />;
 });
 
 Content.displayName = 'ChatListRender';

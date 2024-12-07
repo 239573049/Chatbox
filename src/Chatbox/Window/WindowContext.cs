@@ -20,4 +20,18 @@ public static class WindowContext
     {
         _photinoWindow.SetTitle(title);
     }
+    
+    [JSInvokable]
+    public static async IAsyncEnumerable<string> GetFilesAsync()
+    {
+        // 循环四次
+        for (int i = 0; i < 4; i++)
+        {
+            Console.WriteLine($"File {i}");
+            yield return $"File {i}";
+            await Task.Delay(1000);
+        }
+        
+        
+    }
 }

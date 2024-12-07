@@ -24,8 +24,8 @@ const ChatTop = memo(() => {
         >
             {
                 !navExpanded ? <ActionIcon icon={PanelLeftOpen}
-                    onClick={() => updateNavExpanded(false)} /> : <ActionIcon
-                    icon={PanelRightOpen} onClick={() => updateNavExpanded(true)} />
+                    onClick={() => updateNavExpanded(true)} /> : <ActionIcon
+                    icon={PanelRightOpen} onClick={() => updateNavExpanded(false)} />
             }
             <Typography style={{
                 fontSize: 18,
