@@ -1,10 +1,12 @@
 import { StateCreator } from "zustand";
 import { GlobalStore } from "./store";
 import { SideKey } from "./initialState";
+import { Setting } from "@/types/setting";
 
 export interface GlobalStoreAction {
     switchTheme: (theme: 'dark' | 'light' | 'auto') => void;
     switchSide: (sideKey: SideKey) => void;
+    setSettings: (settings: Setting) => void;
 }
 
 
@@ -29,4 +31,9 @@ export const globalActionSlice: StateCreator<
             sideKey: sideKey
         })
     },
+    setSettings(settings) {
+        set({
+            settings: settings
+        })
+    }
 })

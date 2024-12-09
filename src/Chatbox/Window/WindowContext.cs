@@ -1,4 +1,3 @@
-using System.Drawing;
 using Microsoft.JSInterop;
 using Photino.Blazor;
 using Photino.NET;

@@ -18,7 +18,11 @@ export interface ChatState {
     },
     messageEditingIds: string[],
     messageGeneratingIds: string[],
-    activeSessionId: string | null
+    activeSessionId: string | null,
+    meta: {
+        avatar: string,
+        nickname: string
+    }
 }
 
 export const initialState: ChatState = {
@@ -39,6 +43,10 @@ export const initialState: ChatState = {
     },
     messageEditingIds: [],
     messageGeneratingIds: [],
-    activeSessionId: null
+    activeSessionId: null,
+    meta: {
+        avatar: '😄',
+        nickname: 'Token'
+    }
 };
 

@@ -1,10 +1,8 @@
-import React from "react";
-
 export interface AgentModel {
     id: string;
     name: string;
     description: string;
-    icon: React.ReactNode;
+    icon: any;
     tags: string[];
     model: string;
     temperature: number;

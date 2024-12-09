@@ -37,9 +37,10 @@ internal class Program
             .SetTitle("人工智能");
         
         App.MainWindow
-            .SetIconFile("logo.ico");
+            .SetIconFile("./logo.ico");
 
-        App.UseWindowContext();
+        App.UseWindowContext()
+            .UseSettingContext();
 
         AppDomain.CurrentDomain.UnhandledException += (sender, error) =>
         {

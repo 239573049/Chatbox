@@ -30,6 +30,7 @@ export interface BaseDataModel {
   id: string;
   meta: {
     avatar: string | undefined;
+    name: string | undefined;
   };
 
   /**

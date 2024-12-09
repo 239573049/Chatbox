@@ -14,7 +14,9 @@ interface ListProps {
 const Content = memo<ListProps>(({ mobile }) => {
 
 
-  const data = useChatStore((s) => s.content.messagesMap[s.activeSessionId || '']);
+  const [messagesMap, activeSessionId] = useChatStore((s) => [s.content.messagesMap, s.activeSessionId]);
+
+  const data = messagesMap[activeSessionId || ''];
 
   const itemContent = useCallback(
     (index: number, id: string) => <MainChatItem id={id} index={index} />,

@@ -26,8 +26,15 @@ const getMeta = (message: ChatMessage) => {
     }
 };
 
+
+/**
+ * 获取当前的聊天记录
+ * @param s 
+ * @param messages 
+ * @returns 
+ */
 const getChatsWithThread = (s: ChatState, messages: ChatMessage[]) => {
-    return messages.filter((m) => !m.threadId);
+    return messages;
 };
 
 
