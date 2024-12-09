@@ -23,33 +23,6 @@ public static class WindowContext
     }
 
     [JSInvokable]
-    public static void ResizeWindow(int width, int height, bool fromLeft = false, bool fromBottom = false)
-    {
-        Console.WriteLine($"ResizeWindow: {width}, {height}, {fromLeft}, {fromBottom}");
-        // 获取当前窗口位置
-        var currentLeft = _photinoWindow.Left;
-        var currentTop = _photinoWindow.Top;
-
-        int newLeft = currentLeft;
-        int newTop = currentTop;
-        if (fromLeft)
-        {
-            newLeft = currentLeft + (_photinoWindow.Size.Width - width);
-        }
-
-        if (fromBottom)
-        {
-            newTop = currentTop + (_photinoWindow.Size.Height - height);
-        }
-
-        // 设置新的窗口大小和位置
-        _photinoWindow.SetSize(width, height);
-        _photinoWindow.SetLocation(new Point(newLeft, newTop));
-    }
-
-
-    // 新增功能：最小化窗口
-    [JSInvokable]
     public static void MinimizeWindow()
     {
         _photinoWindow.SetMinimized(true);

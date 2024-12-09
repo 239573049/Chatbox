@@ -34,7 +34,6 @@ internal class Program
             .Center()
             .SetSize(1000, 800)
             .Load(appUrl)
-            .SetChromeless(true)
             .SetTitle("人工智能");
         
         App.MainWindow
