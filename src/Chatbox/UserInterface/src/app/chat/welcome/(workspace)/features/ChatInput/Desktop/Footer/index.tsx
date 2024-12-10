@@ -10,7 +10,6 @@ import { isMacOS } from '@/utils/platform';
 
 import SendMore from './SendMore';
 import ShortcutHint from './ShortcutHint';
-import { useSendMessage } from '@/features/ChatInput/useSend';
 
 const useStyles = createStyles(({ css, prefixCls, token }) => {
   return {

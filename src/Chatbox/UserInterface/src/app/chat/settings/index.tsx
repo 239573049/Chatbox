@@ -1,11 +1,9 @@
-import { Tag } from 'antd';
 import { useResponsive } from 'antd-style';
 import { memo, useRef } from 'react';
 import { Flexbox } from 'react-layout-kit';
 
 import Footer from '@/features/Setting/Footer';
 import SettingContainer from '@/features/Setting/SettingContainer';
-import { useActiveSettingsKey } from '@/hooks/useActiveSettingsKey';
 
 import Header from './Header';
 import SideBar from './SideBar';
@@ -15,8 +13,6 @@ import Category from './@category';
 const Layout = memo(() => {
     const ref = useRef<any>(null);
     const { md = true } = useResponsive();
-    const activeKey = useActiveSettingsKey();
-
     return (
         <Flexbox
             height={'100%'}

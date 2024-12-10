@@ -5,6 +5,7 @@ import { Flexbox } from 'react-layout-kit';
 import ModelItem from "./ModelItem";
 import { useChatStore } from "@/store/chat";
 import WindowContext from "@/service/WindowContext";
+import { getServiceModels } from "@/service/ModelService";
 
 const Models = memo(() => {
     const [search, setSearchValue, models, initModels, navExpanded, updateNavExpanded, model] =
@@ -15,8 +16,12 @@ const Models = memo(() => {
     }));
 
     useEffect(() => {
-        initModels();
-    }, [initModels]);
+        handleInitModels();
+    }, []);
+    async function handleInitModels() {
+        const models = await getServiceModels();
+        initModels(models);
+    }
 
     useEffect(() => {
         if (model) {
@@ -50,9 +55,22 @@ const Models = memo(() => {
                 }}
                 onChange={(value) => setSearchValue(value.target.value)}
             />
-            {models.map((model) => (
-                <ModelItem key={model.id} {...model} />
-            ))}
+            <Flexbox style={{
+                overflow: 'auto',
+                height:'calc(100vh - 65px)',
+                // 添加以下样式来隐藏滚动条
+                // @ts-ignore
+                '&::-webkit-scrollbar': {
+                    display: 'none'
+                },
+                msOverflowStyle: 'none',  // IE 和 Edge
+                scrollbarWidth: 'none',    // Firefox
+            }}>
+
+                {models.map((model) => (
+                    <ModelItem key={model.id} {...model} />
+                ))}
+            </Flexbox>
         </Flexbox>
     </DraggablePanel>)
 })

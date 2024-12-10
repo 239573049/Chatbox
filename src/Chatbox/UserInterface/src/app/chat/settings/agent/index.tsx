@@ -3,10 +3,9 @@ import { Setting } from "@/types/setting";
 import { memo, useState, useEffect, useLayoutEffect } from "react";
 
 import { EmojiPicker, Form, ItemGroup, SliderWithInput } from '@lobehub/ui';
-import { Input, message } from 'antd';
+import { Input } from 'antd';
 
 import { FORM_STYLE } from '@/const/layoutTokens';
-import { useGlobalStore } from "@/store/global";
 import { useChatStore } from "@/store/chat";
 
 const SettingAgent = memo(() => {

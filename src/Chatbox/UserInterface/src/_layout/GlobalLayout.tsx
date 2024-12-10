@@ -10,9 +10,11 @@ export default function GlobalLayout({
     children: React.ReactNode
 }) {
     useEffect(() => {
-        // @ts-ignore
-        window.external.sendMessage(`__bwv:["AttachPage","${window.location.origin + "/"}","${window.location.origin + "/"}"]`);
-        // 等待100ms
+        try {
+            initWebView();
+        } catch (error) {
+        }
+
         setTimeout(async () => {
             const setting = await SettingContext.GetSetting();
             useGlobalStore.getState().setSettings(setting);
@@ -21,7 +23,13 @@ export default function GlobalLayout({
                 nickname: setting.nickname || 'Token'
             });
         }, 100);
+
     }, []);
+
+    async function initWebView() {
+        // @ts-ignore
+        await window.external.sendMessage(`__bwv:["AttachPage","${window.location.origin + "/"}","${window.location.origin + "/"}"]`);
+    }
 
     const [theme, switchTheme] = useGlobalStore((state) => [state.theme, state.switchTheme]);
 

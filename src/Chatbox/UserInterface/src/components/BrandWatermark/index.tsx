@@ -1,4 +1,3 @@
-import { LobeHub } from '@lobehub/ui/brand';
 import { createStyles } from 'antd-style';
 import { memo } from 'react';
 import { Flexbox, FlexboxProps } from 'react-layout-kit';

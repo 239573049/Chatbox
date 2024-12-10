@@ -25,6 +25,8 @@ const TopActions = memo(() => {
         switchSide(key);
         if (key === SideKey.Search) {
             navigate('/search');
+        } else if (key === SideKey.Settings) {
+            navigate('/settings')
         } else {
             navigate('/');
         }

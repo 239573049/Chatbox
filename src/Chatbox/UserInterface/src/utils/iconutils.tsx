@@ -18,7 +18,8 @@ import {
     DeepSeek,
     Qingyan,
     Qwen,
-    DeepAI
+    DeepAI,
+    Kimi
 } from '@lobehub/icons';
 
 export function getIconByNames(size: number = 24) {
@@ -40,7 +41,8 @@ export function getIconByNames(size: number = 24) {
         'DeepSeek',
         "Qingyan",
         "Qwen",
-        "DeepAI"
+        "DeepAI",
+        "Kimi"
     ]
 
     return models.map((name) => {
@@ -153,6 +155,11 @@ export function getIconByName(name: string, size: number = 36) {
             return {
                 icon: <IconAvatar Icon={DeepAI} size={size} />,
                 label: 'DeepAI'
+            };
+        case 'Kimi':
+            return {
+                icon: <IconAvatar Icon={Kimi} size={size} />,
+                label: 'Kimi'
             };
         default:
             return {

@@ -3,6 +3,7 @@ import { Setting } from "@/types/setting";
 export enum SideKey {
     Chat = "Chat",
     Search = "Search",
+    Settings = "Settings"
 }
 
 export interface GlobalState {

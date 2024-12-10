@@ -6,7 +6,7 @@ import { RenderAction } from '../types';
 import { InPortalThreadContext } from '../components/ChatItem/InPortalThreadContext';
 import { useChatListActionsBar } from '../hooks/useChatListActionsBar';
 
-export const UserActionsBar: RenderAction = memo(({ onActionClick, id }) => {
+export const UserActionsBar: RenderAction = memo(({ onActionClick }) => {
     const { regenerate, edit, copy, divider, del } = useChatListActionsBar({});
 
     const inPortalThread = useContext(InPortalThreadContext);

@@ -5,7 +5,7 @@ using Photino.NET.Server;
 
 namespace Chatbox;
 
-internal class Program
+internal static class Program
 {
 #if DEBUG
     private static readonly bool IsDebugMode = true;
@@ -39,8 +39,7 @@ internal class Program
         App.MainWindow
             .SetIconFile("./logo.ico");
 
-        App.UseWindowContext()
-            .UseSettingContext();
+        App.UseWindowContext();
 
         AppDomain.CurrentDomain.UnhandledException += (sender, error) =>
         {

@@ -38,6 +38,7 @@ const SendMore = memo<SendMoreProps>(({ disabled }) => {
   useHotkeys(
     hotKey,
     (keyboardEvent, hotkeysEvent) => {
+      console.log('keyboardEvent', keyboardEvent, hotkeysEvent);
       sendMessage({ onlyAddUserMessage: true, message: '' });
     },
     {
