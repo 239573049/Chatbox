@@ -9,4 +9,4 @@ export const MANUAL_UPGRADE_URL = urlJoin(OFFICIAL_SITE, '/upstream');
 
 export const ModelUrl = urlJoin(OFFICIAL_SITE,"agent-model.json")
 
-export const ChatUrl = urlJoin(OFFICIAL_SITE,"/api/chat")
+export const ChatUrl = urlJoin(OFFICIAL_SITE,"/api/chat-completion")

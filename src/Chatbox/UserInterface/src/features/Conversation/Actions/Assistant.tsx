@@ -7,6 +7,7 @@ import { useChatListActionsBar } from '../hooks/useChatListActionsBar';
 import { RenderAction } from '../types';
 import { ErrorActionsBar } from './Error';
 
+//@ts-ignore
 export const AssistantActionsBar: RenderAction = memo(({ onActionClick, error, tools, id }) => {
   const { regenerate, edit, delAndRegenerate, copy, divider, del } =
     useChatListActionsBar({  });

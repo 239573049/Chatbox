@@ -33,7 +33,7 @@ const getMeta = (message: ChatMessage) => {
  * @param messages 
  * @returns 
  */
-const getChatsWithThread = (s: ChatState, messages: ChatMessage[]) => {
+const getChatsWithThread = (messages: ChatMessage[]) => {
     return messages;
 };
 
@@ -64,7 +64,7 @@ const activeBaseChatsWithoutTool = (s: ChatState) => {
 const mainDisplayChats = (s: ChatState): ChatMessage[] => {
     const displayChats = activeBaseChatsWithoutTool(s);
 
-    return getChatsWithThread(s, displayChats);
+    return getChatsWithThread(displayChats);
 };
 const mainDisplayChatIDs = (s: ChatState) => mainDisplayChats(s).map((s) => s.id);
 

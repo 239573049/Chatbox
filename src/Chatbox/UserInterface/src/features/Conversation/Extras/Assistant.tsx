@@ -6,6 +6,7 @@ import { ChatMessage } from '@/types/message';
 import { RenderMessageExtra } from '../types';
 
 export const AssistantMessageExtra: RenderMessageExtra = memo<ChatMessage>(
+    //@ts-ignore
     ({ extra, id, content }) => {
 
 

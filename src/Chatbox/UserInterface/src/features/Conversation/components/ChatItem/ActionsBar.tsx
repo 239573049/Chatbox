@@ -35,8 +35,6 @@ const Actions = memo<ActionsProps>(({ id, inPortalThread }) => {
   const [
     deleteMessage,
     regenerateMessage,
-    translateMessage,
-    ttsMessage,
     delAndRegenerateMessage,
     copyMessage,
     openThreadCreator,
@@ -46,8 +44,6 @@ const Actions = memo<ActionsProps>(({ id, inPortalThread }) => {
   ] = useChatStore((s) => [
     s.deleteMessage,
     s.regenerateMessage,
-    s.translateMessage,
-    s.ttsMessage,
     s.delAndRegenerateMessage,
     s.copyMessage,
     s.openThreadCreator,
@@ -101,18 +97,18 @@ const Actions = memo<ActionsProps>(({ id, inPortalThread }) => {
           break;
         }
 
-        case 'tts': {
-          ttsMessage(id);
-          break;
-        }
+        // case 'tts': {
+        //   ttsMessage(id);
+        //   break;
+        // }
       }
 
       if (action.keyPath.at(-1) === 'translate') {
         // click the menu item with translate item, the result is:
         // key: 'en-US'
         // keyPath: ['en-US','translate']
-        const lang = action.keyPath[0];
-        translateMessage(id, lang);
+        // const lang = action.keyPath[0];
+        // translateMessage(id, lang);
       }
     },
     [item],

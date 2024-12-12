@@ -1,6 +1,5 @@
 import { ModelUrl } from "@/const/url";
 import { AgentModel } from "@/types/Model";
-import { getIconByName } from "@/utils/iconutils";
 
 async function getServiceModels(): Promise<AgentModel[]> {
     const cacheKey = 'agentModelsCache';
@@ -10,11 +9,6 @@ async function getServiceModels(): Promise<AgentModel[]> {
         const models = JSON.parse(text) as AgentModel[];
         // 成功获取数据后，更新缓存
         localStorage.setItem(cacheKey, JSON.stringify(models));
-
-        // 更新icon
-        models.forEach(model => {
-            model.icon = getIconByName(model.icon).icon;
-        });
 
         return models;
     } catch (error) {

@@ -47,7 +47,7 @@ const ContentPreview = ({ content, id, displayMode }: ContentPreviewProps) => {
           }}
           size={'small'}
         >
-          {t('chatList.longMessageDetail')}
+          查看详情
         </Button>
       </Flexbox>
     </Flexbox>

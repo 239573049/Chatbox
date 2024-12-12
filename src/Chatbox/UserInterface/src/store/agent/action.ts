@@ -6,6 +6,7 @@ export interface AgentStoreAction {
 }
 
 
+// @ts-ignore
 export const agentActionSlice: StateCreator<AgentState, [['zustand/devtools', never]], [], AgentStoreAction> = (set, get) => ({
     setDisplayMode(mode) {
         set({

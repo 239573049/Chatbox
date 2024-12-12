@@ -13,23 +13,29 @@ const useModel = () => {
     async function loadModels() {
         // 从本地缓存读取
         const cachedModels = JSON.parse(localStorage.getItem('models') || '[]');
-        setModels(cachedModels);
-
-        // 从远程获取数据
-        const result = await getServiceModels();
-
-        // 如果远程数据和本地缓存不一致，则覆盖
-        if (JSON.stringify(result) !== JSON.stringify(cachedModels)) {
-            setModels(result);
-            localStorage.setItem('models', JSON.stringify(result));
-        }
         
-        result.forEach(model => {
+        cachedModels.forEach((model:any) => {
             if (model.icon) {
                 model.icon = getIconByName(model.icon).icon;
             }
         });
 
+        setModels(cachedModels);
+
+        // 从远程获取数据
+        const result = await getServiceModels();
+        
+        // 处理远程数据的图标
+        const processedResult = result.map(model => ({
+            ...model,
+            icon: model.icon ? getIconByName(model.icon).icon : null
+        }));
+
+        // 如果远程数据和本地缓存不一致，则覆盖
+        if (JSON.stringify(result) !== JSON.stringify(cachedModels)) {
+            setModels(processedResult);
+            localStorage.setItem('models', JSON.stringify(result));
+        }
     }
 
     return models;

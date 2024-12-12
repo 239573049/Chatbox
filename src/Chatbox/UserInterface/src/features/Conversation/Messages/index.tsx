@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 
 import { MarkdownCustomRender, RenderBelowMessage, RenderMessage } from '../types';
 import { DefaultBelowMessage, DefaultMessage } from './Default';
-import { UserBelowMessage, UserMarkdownRender, UserMessage } from './User';
+import {  UserMarkdownRender, UserMessage } from './User';
 
 export const renderMessages: Record<string, RenderMessage> = {
   assistant: DefaultMessage,
@@ -14,7 +14,6 @@ export const renderMessages: Record<string, RenderMessage> = {
 
 export const renderBelowMessages: Record<string, RenderBelowMessage> = {
   default: DefaultBelowMessage,
-  user: UserBelowMessage,
 };
 
 export const markdownCustomRenders: Record<string, MarkdownCustomRender> = {

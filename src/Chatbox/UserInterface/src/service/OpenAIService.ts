@@ -1,9 +1,9 @@
 import { ChatUrl } from "@/const/url";
-import SettingContext from "./SettingContext";
 import { message } from "antd";
 
 const Chat = async ({
     messages = [] as any[],
+    // @ts-ignore
     handleMessageUpdate = (msg: string) => { },
     handleMessageEnd = () => { }
 }) => {
@@ -18,10 +18,7 @@ const Chat = async ({
             model: model,
             messages,
             stream: true,
-
         }
-
-        const settings = await SettingContext.GetSetting();
 
         const response = await fetch(ChatUrl,
             {
@@ -29,7 +26,7 @@ const Chat = async ({
                 body: JSON.stringify(input),
                 headers: {
                     "content-type": "application/json",
-                    "Authorization": `Bearer ${settings.apiKey}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
             }
         );
@@ -51,20 +48,15 @@ const Chat = async ({
             for (const line of lines) {
                 // 跳过空行
                 if (!line.trim()) continue;
-
-                // 移除 "data: " 前缀
                 const message = line.replace(/^data: /, "");
-
-                // 检查流是否结束
                 if (message === "[DONE]") {
                     return;
                 }
-
                 try {
                     // 解析 JSON 数据
                     const parsed = JSON.parse(message);
                     // 获取实际的消息内容
-                    const content = parsed.choices[0]?.delta?.content;
+                    const content = parsed?.text;
                     if (content) {
                         handleMessageUpdate(content);
                     }

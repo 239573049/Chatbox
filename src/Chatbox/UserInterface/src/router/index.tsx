@@ -6,6 +6,7 @@ import Not from "./not";
 import Settings from '../app/chat/settings'
 import SettingAgent from '../app/chat/settings/agent'
 import SettingCommon from '../app/chat/settings/common'
+import OAuthCallback from '../app/oauth/index'
 
 
 const routes = [
@@ -39,6 +40,10 @@ const routes = [
                 ]
             }
         ],
+    },
+    {
+        path:'/oauth',
+        element:<OAuthCallback/>
     },
     {
         path: '*',

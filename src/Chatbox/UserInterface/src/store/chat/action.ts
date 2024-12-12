@@ -1,10 +1,12 @@
 import { StateCreator } from "zustand";
 import { ChatStore } from "./store";
-import { ChatMessage, CreateMessageParams, SendMessageParams, SendThreadMessageParams } from "@/types/message";
+import { ChatMessage,  SendMessageParams, SendThreadMessageParams } from "@/types/message";
 import { nanoid } from "@/utils/uuid";
 import Chat from "@/service/OpenAIService";
 import SettingContext from "@/service/SettingContext";
 import { message } from "antd";
+import { getUserInfo } from "../user/selectors";
+import { useUserStore } from "../user";
 
 export interface ChatStoreAction {
     updateInputMessage: (vaule: string) => void;
@@ -25,7 +27,6 @@ export interface ChatStoreAction {
      * @returns 
      */
     regenerateMessage: (id: string) => Promise<void>;
-    translateMessage: (id: string, lang: string) => Promise<void>;
     /**
      * 删除并重新生成
      * @param id 
@@ -45,8 +46,6 @@ export interface ChatStoreAction {
     toggleMessageEditing: (id: string, editing: boolean) => Promise<void>;
     reInvokeToolMessage: (id: string) => Promise<void>;
     deleteToolMessage: (id: string) => Promise<void>;
-    deleteUserMessageRagQuery: (id: string) => Promise<void>;
-    rewriteQuery: (id: string) => Promise<void>;
     openMessageDetail: (id: string) => Promise<void>;
 
     /**
@@ -70,15 +69,6 @@ export interface ChatStoreAction {
      * 清空当前对话
      */
     clearConversation: () => Promise<void>;
-
-    /**
-     * 设置当前会话的元数据
-     * @param meta 
-     */
-    setMeta: (meta: {
-        avatar: string,
-        nickname: string
-    }) => void;
 }
 
 
@@ -88,11 +78,6 @@ export const chatActionSlice: StateCreator<
     [],
     ChatStoreAction
 > = (set, get) => ({
-    setMeta(meta) {
-        set({
-            meta: meta
-        })
-    },
     updateInputMessage(vaule) {
         set({
             message: {
@@ -294,17 +279,14 @@ export const chatActionSlice: StateCreator<
             }
         });
     },
-    async translateMessage(id, lang) {
-
-    },
     async openThreadCreator(id) {
-
+        console.log(id);
     },
     async resendThreadMessage(id) {
-
+        console.log(id);
     },
     async delAndResendThreadMessage(id) {
-
+        console.log(id);
     },
     async toggleMessageEditing(id, editing) {
         set({
@@ -421,16 +403,10 @@ export const chatActionSlice: StateCreator<
         });
     },
     async reInvokeToolMessage(id) {
-
+        console.log(id);
     },
     async deleteToolMessage(id) {
-
-    },
-    async deleteUserMessageRagQuery(id) {
-
-    },
-    async rewriteQuery(id) {
-
+        console.log(id);
     },
     async openMessageDetail(id) {
         console.log(id);
@@ -542,12 +518,7 @@ export const chatActionSlice: StateCreator<
 
             if (!value || value.trim() === '') return;
 
-            // 判断有没有设置apikey
-            const token = (await SettingContext.GetSetting()).apiKey;
-            if (!token) {
-                message.error('请先设置apikey');
-                return;
-            }
+            const userInfo = getUserInfo(useUserStore.getState());
 
             const newMessage: ChatMessage = {
                 content: value,
@@ -557,8 +528,8 @@ export const chatActionSlice: StateCreator<
                 updatedAt: Date.now(),
                 id: nanoid(),
                 meta: {
-                    avatar: get().meta.avatar,
-                    name: get().meta.nickname
+                    avatar: userInfo.avatar,
+                    name: userInfo.name
                 },
                 traceId: nanoid(),
                 threadId: null,
@@ -599,6 +570,8 @@ export const chatActionSlice: StateCreator<
                 return;
             }
 
+            const userInfo = getUserInfo(useUserStore.getState());
+
             const newMessage: ChatMessage = {
                 content: value,
                 role: 'user',
@@ -607,8 +580,8 @@ export const chatActionSlice: StateCreator<
                 updatedAt: Date.now(),
                 id: nanoid(),
                 meta: {
-                    avatar: get().meta.avatar,
-                    name: get().meta.nickname
+                    avatar: userInfo.avatar,
+                    name: userInfo.name
                 },
                 traceId: nanoid(),
                 threadId: null,

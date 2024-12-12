@@ -5,11 +5,12 @@ import { Flexbox } from 'react-layout-kit';
 import ModelItem from "./ModelItem";
 import { useChatStore } from "@/store/chat";
 import WindowContext from "@/service/WindowContext";
-import { getServiceModels } from "@/service/ModelService";
+import useModel from "@/hooks/useModel";
 
 const Models = memo(() => {
-    const [search, setSearchValue, models, initModels, navExpanded, updateNavExpanded, model] =
-        useModelsStore((state) => [state.search, state.setSearchValue, state.models, state.initModels, state.navExpanded, state.updateNavExpanded, state.model]);
+    const models = useModel()
+    const [search, setSearchValue, initModels, navExpanded, updateNavExpanded, model] =
+        useModelsStore((state) => [state.search, state.setSearchValue, state.initModels, state.navExpanded, state.updateNavExpanded, state.model]);
 
     const { updateSessionId } = useChatStore((s) => ({
         updateSessionId: s.updateSessionId
@@ -17,10 +18,12 @@ const Models = memo(() => {
 
     useEffect(() => {
         handleInitModels();
-    }, []);
+    }, [models])
+
     async function handleInitModels() {
-        const models = await getServiceModels();
-        initModels(models);
+        if (models.length > 0) {
+            initModels(models);
+        }
     }
 
     useEffect(() => {
@@ -57,7 +60,7 @@ const Models = memo(() => {
             />
             <Flexbox style={{
                 overflow: 'auto',
-                height:'calc(100vh - 65px)',
+                height: 'calc(100vh - 65px)',
                 // 添加以下样式来隐藏滚动条
                 // @ts-ignore
                 '&::-webkit-scrollbar': {

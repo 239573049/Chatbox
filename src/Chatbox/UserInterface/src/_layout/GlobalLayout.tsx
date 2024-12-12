@@ -1,5 +1,4 @@
 import SettingContext from "@/service/SettingContext";
-import { useChatStore } from "@/store/chat";
 import { useGlobalStore } from "@/store/global"
 import { ThemeProvider } from "@lobehub/ui"
 import { useEffect, } from "react";
@@ -18,12 +17,7 @@ export default function GlobalLayout({
         setTimeout(async () => {
             const setting = await SettingContext.GetSetting();
             useGlobalStore.getState().setSettings(setting);
-            useChatStore.getState().setMeta({
-                avatar: setting.avatar || '😄',
-                nickname: setting.nickname || 'Token'
-            });
         }, 100);
-
     }, []);
 
     async function initWebView() {

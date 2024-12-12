@@ -6,6 +6,7 @@ import Footer from './Footer';
 import TextArea from './TextArea';
 
 const leftActions = [
+  'function',
 ] as ActionKeys[];
 
 const rightActions = ['clear'] as ActionKeys[];
