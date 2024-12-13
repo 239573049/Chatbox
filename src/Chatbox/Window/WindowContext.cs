@@ -1,42 +1,33 @@
-using Microsoft.JSInterop;
-using Photino.Blazor;
+using Chatbox.Contract;
 using Photino.NET;
 
 namespace Chatbox.Window;
 
-public static class WindowContext
+public class WindowContext : IWindowContext
 {
     private static PhotinoWindow _photinoWindow;
 
-    public static PhotinoBlazorApp UseWindowContext(this PhotinoBlazorApp app)
+    public WindowContext(PhotinoWindow photinoWindow)
     {
-        _photinoWindow = app.MainWindow;
-
-        return app;
+        _photinoWindow = photinoWindow;
     }
 
-    [JSInvokable]
-    public static void SetTitle(string title)
+    public void SetTitle(string title)
     {
         _photinoWindow.SetTitle(title);
     }
 
-    [JSInvokable]
-    public static void MinimizeWindow()
+    public void MinimizeWindow()
     {
         _photinoWindow.SetMinimized(true);
     }
 
-    // 新增功能：最大化窗口
-    [JSInvokable]
-    public static void MaximizeWindow()
+    public void MaximizeWindow()
     {
         _photinoWindow.SetMaximized(true);
     }
 
-    // 新增功能：恢复窗口
-    [JSInvokable]
-    public static void RestoreWindow()
+    public void RestoreWindow()
     {
         _photinoWindow.SetResizable(true);
     }

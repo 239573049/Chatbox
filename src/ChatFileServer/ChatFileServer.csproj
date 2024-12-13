@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="file\vite.svg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="file\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Chatbox.Contract\Chatbox.Contract.csproj" />
+    </ItemGroup>
+
+</Project>

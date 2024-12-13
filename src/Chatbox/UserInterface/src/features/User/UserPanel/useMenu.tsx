@@ -1,15 +1,20 @@
-import { Icon } from '@lobehub/ui';
+import { Icon, Tooltip } from '@lobehub/ui';
 import { ItemType } from 'antd/es/menu/interface';
 import {
     Book,
     LifeBuoy,
     LogOut,
+    Rocket
 } from 'lucide-react';
 import type { MenuProps } from '@/components/Menu';
 import { useUserStore } from '@/store/user';
 import { Link } from 'react-router-dom';
+import useVersions from '@/hooks/useVersions';
+import UpgradeBadge from './UpgradeBadge';
+import { Dropdown } from 'antd';
 
 export const useMenu = () => {
+    const versions = useVersions();
     const [isSignIn] = useUserStore((s) => [
         s.isSignIn
     ]);
@@ -39,9 +44,17 @@ export const useMenu = () => {
     const mainItems = [
         {
             type: 'divider',
-        },
+        }, versions.isNewVersion ? {
+            icon: <Icon icon={Rocket} />,
+            key: 'versions',
+            label: <Tooltip title={versions.description}>
+                <span>有新版本版本：{versions.version}</span>
+            </Tooltip>,
+        } : null,
         ...helps,
     ].filter(Boolean) as MenuProps['items'];
+
+
 
     const logoutItems: MenuProps['items'] = isSignIn
         ? [
