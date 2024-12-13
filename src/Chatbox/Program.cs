@@ -38,8 +38,6 @@ internal static class Program
 
             string appUrl = IsDebugMode ? "http://localhost:3000" : $"{url}/index.html";
 
-            appBuilder.Services.AddBlazorWebView();
-
             App = appBuilder.Build();
 
             App.MainWindow
